@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, MetaData, Table, Boolean, Column, Integer, String
+from sqlalchemy import create_engine, MetaData, Table, Boolean, Column, Integer, String, insert
 
 
 engine = create_engine('sqlite:///topicley.db', echo = True) #ECHO = true prints swl commands to terminal
@@ -12,4 +12,35 @@ cases = Table(
     Column('solved', Boolean)
 )
 
+channels = Table(
+    'channels', 
+    meta,
+    Column('id', Integer, primary_key = True),
+    Column('name', String),
+    Column('type', String)
+)
+
 meta.create_all(engine)
+
+conn = engine.connect()
+conn.execute(
+ insert(cases).values(
+  [
+    {'title' : 'Jodi Arias', 'solved' : True},
+    {'title' : 'Chris Watts', 'solved' : False},
+    {'title' : 'Ted Bundy', 'solved' : True},
+    {'title' : 'Brian Cohee', 'solved' : False},
+    {'title' : 'Gabby Petito', 'solved' : True},
+    ]
+  )
+  
+ )
+conn.execute(
+ insert(channels).values(
+  [
+    {'name' : 'Jodi Arias channel', 'type' : 'true crime'},
+ 
+    ]
+  )
+  
+ )
